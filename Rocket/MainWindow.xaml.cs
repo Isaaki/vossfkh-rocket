@@ -70,22 +70,55 @@ namespace Rocket
 
             if (LeftKeyPressed)
             {
-                Velocity.Rot -= 400 * timeStep;
+                Velocity.Rot -= 500 * timeStep;
             }
             if (RightKeyPressed)
             {
-                Velocity.Rot += 400 * timeStep;
+                Velocity.Rot += 500 * timeStep;
             }
             if (UpKeyPressed)
             {
-                Velocity.X += 400 * Math.Sin(Position.Rot * Math.PI / 180) * timeStep;
-                Velocity.Y -= 400 * Math.Cos(Position.Rot * Math.PI / 180) * timeStep;
+                Velocity.X += 1000 * Math.Sin(Position.Rot * Math.PI / 180) * timeStep;
+                Velocity.Y -= 1000 * Math.Cos(Position.Rot * Math.PI / 180) * timeStep;
             }
 
             Position.X = Position.X + Velocity.X * timeStep;
             Position.Y = Position.Y + Velocity.Y * timeStep;
             Position.Rot = Position.Rot + Velocity.Rot * timeStep;
 
+            
+            
+            Velocity.Rot = Velocity.Rot * 0.98;
+            Velocity.Y = Velocity.Y * 0.991;
+            Velocity.X = Velocity.X * 0.991;
+
+            Velocity.Y = Velocity.Y + 8;
+
+            if (Position.X >= SpaceCanvas.Width - 30 && Velocity.X > 0)
+            {
+                Velocity.X = Velocity.X * -1;
+                Velocity.X = Velocity.X - 10;
+            }
+            if (Position.X <= 0 && Velocity.X < 0)
+            {
+                Velocity.X = Velocity.X * -1;
+                Velocity.X = Velocity.X + 10;
+            }
+
+            if (Position.Y >= SpaceCanvas.Height - 30 && Velocity.Y > 0)
+            {
+                Velocity.Y = Velocity.Y * -1;
+                Velocity.Y = Velocity.Y + 50;                
+            }
+            if (Position.Y <= 0 && Velocity.Y < 0)
+            {
+                Velocity.Y = Velocity.Y * -1;
+                Position.Y = 0;
+            }
+            if(Position.Y > SpaceCanvas.Height - 30)
+            {
+                Position.Y = SpaceCanvas.Height - 30;
+            }
             Canvas.SetLeft(RocketImage, Position.X);
             Canvas.SetTop(RocketImage, Position.Y);
             RocketImage.RenderTransform = new RotateTransform(Position.Rot);
